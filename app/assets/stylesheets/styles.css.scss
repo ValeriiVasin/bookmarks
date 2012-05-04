@@ -1,0 +1,29 @@
+#links {
+  width: 800px;
+  >li {
+    padding: 10px 0;
+    .title {
+      font-size: 16px;
+    }
+    .url {
+      display: inline-block;
+      margin-left: 25px;
+      font-style: italic;
+    }
+    blockquote {
+      width: 550px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    ul.actions {
+      float: right;
+      li {
+        display: inline-block;
+        text-align: right;
+        a {
+          width: 70px;
+        }
+      }
+    }
+  }
+}
