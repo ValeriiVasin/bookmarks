@@ -1,5 +1,4 @@
 #links {
-  width: 800px;
   >li {
     padding: 10px 0;
     .title {
@@ -11,7 +10,7 @@
       font-style: italic;
     }
     blockquote {
-      width: 550px;
+      width: 400px;
       margin-top: 10px;
       margin-bottom: 0;
     }
@@ -25,5 +24,11 @@
         }
       }
     }
+  }
+}
+
+#filters {
+  .filter-by-domain {
+    margin: 5px 0 20px;
   }
 }
