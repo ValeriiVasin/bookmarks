@@ -16,7 +16,7 @@
       'about':    "about",
       'contacts': "contacts",
       'archive':  "archive",
-      'new':      "addBookmark",
+      'new':      "createBookmark",
       '*path':    "archive"
     },
     about: function () {
@@ -31,9 +31,9 @@
       activateMenuItem(0);
       menu('archive');
     },
-    addBookmark: function () {
+    createBookmark: function () {
       activateMenuItem(1);
-      console.log('add new bookmark will be here');
+      App.publish('show-modal', {type: 'new'});
     }
   });
 }(jQuery));
