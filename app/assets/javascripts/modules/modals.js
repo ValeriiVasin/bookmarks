@@ -39,7 +39,7 @@ App.createModule('modals', function () {
     }
   };
 
-  showModal = function (e, options) {
+  showModal = function (options) {
     var tmpl, defaults;
     if (!options.type) {
       throw new Error("Type of modal action (new or edit) should be specified.");
