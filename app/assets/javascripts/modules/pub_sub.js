@@ -1,18 +1,22 @@
 (function ($) {
-  var PubSub = $({});
+  var PubSub = {};
   App.subscribe = function (type, fn) {
-    var wrapper = function () {
-      return fn.apply(this, Array.prototype.slice.call(arguments, 1));
-    };
-    wrapper.guid = fn.guid = fn.guid || ($.guid ? $.guid++ : $.event.guid++);
-    PubSub.on(type, wrapper);
+    PubSub[type] = PubSub[type] || $.Callbacks();
+    PubSub[type].add(fn);
   };
 
   App.publish = function (type, data) {
-    PubSub.trigger(type, data);
+    if (arguments.length > 2) {
+      throw new Error("Arguments amount should be less or equal than 2");
+    }
+    if (PubSub[type]) {
+      PubSub[type].fire(data);
+    }
   };
 
   App.unsubscribe = function (type, fn) {
-    PubSub.off(type, fn);
+    if (PubSub[type]) {
+      PubSub[type].remove(fn);
+    }
   };
 }(jQuery));
