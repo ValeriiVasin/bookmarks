@@ -17,6 +17,12 @@
 //= require lib/backbone-0.9.2.min
 //= require_self
 //= require template_engine
+//= require_directory ./routers
 //= require_tree .
 
 var App = {};
+
+$(function () {
+  var router = new App.Router();
+  Backbone.history.start();
+});
