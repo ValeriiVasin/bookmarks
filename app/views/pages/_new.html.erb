@@ -1,44 +1,41 @@
-<div class="modal" id="new">
+<script type="text/template" data-name='edit-template'>
+<div class="modal">
   <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
-    <h3>Save a link</h3>
+    <h3><%% if (type === 'new') { %>Save<%% } else { %>Edit<%% } %> a link</h3>
   </div>
   <div class="modal-body">
-
     <form class="form-horizontal">
+
       <div class="control-group">
         <label class="control-label" for="url">URL</label>
         <div class="controls">
-          <input type="text" class="input-xlarge" id="url" name='url' placeholder='Paste the url' />
+          <input type="text" class="input-xlarge" id="url" name='url' placeholder='Paste the url' value='<%%= url %>' />
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label" for="title">Title</label>
         <div class="controls">
-          <input type="text" class="input-xlarge" id="title" name='title' placeholder='Provide a title' />
+          <input type="text" class="input-xlarge" id="title" name='title' placeholder='Provide a title' value='<%%= title %>' />
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label" for="description">Description</label>
         <div class="controls">
-          <textarea class="input-xlarge" id="description" name='description' cols='20' rows='5' placeholder='Provide a description'></textarea>
+          <textarea class="input-xlarge" id="description" name='description' cols='20' rows='5' placeholder='Provide a description'><%%= description %></textarea>
         </div>
       </div>
 
     </form>
-
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-danger pull-left"><i class="icon-trash icon-white"></i> Delete</a>
+    <%% if (type === 'edit') { %>
+      <a href="#" class="btn btn-danger pull-left"><i class="icon-trash icon-white"></i> Delete</a>
+    <%% } %>
     <a href="#" class="btn">Cancel</a>
     <a href="#" class="btn btn-primary">Submit</a>
   </div>
 </div>
-
-<script type="text/javascript">
-  $(function () {
-    $('#new').modal('show');
-  });
 </script>
