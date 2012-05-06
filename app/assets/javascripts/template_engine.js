@@ -3,12 +3,13 @@ App.templates = (function ($) {
   return {
     get: function (name) {
       var jqEl;
-      jqEl = $("script[data-name='"+ name +"']");
-      if (jqEl.length === 0) {
-        throw new Error("Template '" + name + "' not found.");
-      }
       if (!engines[name]) {
+        jqEl = $("script[data-name='"+ name +"']");
+        if (jqEl.length === 0) {
+          throw new Error("Template '" + name + "' not found.");
+        }
         engines[name] = _.template(jqEl.html());
+        jqEl.remove();
       }
       return engines[name];
     }
