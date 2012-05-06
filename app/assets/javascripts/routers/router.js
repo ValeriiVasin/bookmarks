@@ -33,7 +33,7 @@
     },
     createBookmark: function () {
       activateMenuItem(1);
-      App.publish('show-modal', {type: 'new'});
+      App.publish('modal-show', {type: 'new'});
     }
   });
 }(jQuery));

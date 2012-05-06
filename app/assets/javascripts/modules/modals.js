@@ -1,52 +1,68 @@
-(function ($) {
+App.createModule('modals', function () {
+  var modal,
+      createModal,
+      showModal,
+      modalData;
 
-  modal = function (options) {
-    var tmpl, jqEl;
+  createModal = function () {
+    modal = $('<div />', {class: 'modal'});
+    modal.on('hide', function () {
+      App.publish('modal-hide');
+    });
+    modal.on('click', 'a', function () {
+      var type = $(this).data('type');
+      switch (type) {
+        case 'create':
+          console.log('create', modalData());
+          App.publish('create-bookmark', modalData());
+          break;
+        // TODO: implement update - id of model is needed
+        case 'update':
+          console.log('create', modalData());
+          App.publish('update-bookmark', modalData());
+          break;
+        // TODO: implement destroy
+        case 'destroy':
+          break;
+      }
+      modal.modal('hide');
+      return false;
+    });
+    $(document.body).append(modal);
+  };
+
+  modalData = function () {
+    return {
+      url: modal.find('#url').val(),
+      title: modal.find('#title').val(),
+      description: modal.find('#description').val()
+    }
+  };
+
+  showModal = function (e, options) {
+    var tmpl, defaults;
     if (!options.type) {
-      throw new Error("options.type should be specified.");
+      throw new Error("Type of modal action (new or edit) should be specified.");
+    }
+    if (!App.templates) {
+      throw new Error("Templates engine should be loaded before continue.");
     }
     tmpl = App.templates.get('edit-template');
     options = $.extend({
+      url: '',
       title: '',
-      description: '',
-      url: ''
+      description: ''
     }, options || {});
-
-    jqEl = $(tmpl(options));
-    $('.modal').empty().append(jqEl).modal('show');
+    modal.empty().append(tmpl(options)).modal('show');
   };
 
-  App.subscribe('show-modal', function (e, data) {
-    modal(data);
-  });
-
-}(jQuery));
-
-$(function () {
-  var $modal = $('.modal');
-
-  $modal.on('click', 'a', function () {
-    var type = $(this).data('type'),
-        $modal = $('.modal'),
-        data;
-
-    switch (type) {
-      case 'submit':
-        data = {
-          url: $modal.find('#url').val(),
-          title: $modal.find('#title').val(),
-          description: $modal.find('#description').val()
-        };
-        App.publish('create-bookmark', data);
-        break;
-      case 'destroy':
-        break;
+  return {
+    init: function () {
+      createModal();
+      App.subscribe('modal-show', showModal);
+    },
+    destroy: function () {
+      modal.remove();
     }
-    $modal.modal('hide');
-    return false;
-  });
-  
-  $modal.on('hide', function () {
-    App.publish('modal-hide')
-  });
+  };
 });

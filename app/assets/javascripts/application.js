@@ -81,5 +81,6 @@ $(function () {
   App.subscribe('modal-hide', function () {
     router.navigate('archive', {trigger: true});
   });
+  App.startAll();
   Backbone.history.start();
 });
