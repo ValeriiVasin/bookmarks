@@ -18,11 +18,17 @@
 //= require_self
 //= require modules/template_engine
 //= require modules/pub_sub
+//= require_directory ./models
+//= require_directory ./collections
+//= require_directory ./views
 //= require_directory ./modules
 //= require_directory ./routers
 //= require_tree .
 
 var App = {
+  models: {},
+  collections: {},
+  views: {},
   modules: {},
   createModule: function (name, creator) {
     if (typeof creator !== 'function') {
