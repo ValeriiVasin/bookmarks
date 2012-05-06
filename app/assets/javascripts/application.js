@@ -16,6 +16,8 @@
 //= require lib/underscore-1.3.3.min
 //= require lib/backbone-0.9.2.min
 //= require_self
+//= require modules/template_engine
+//= require modules/pub_sub
 //= require_directory ./modules
 //= require_directory ./routers
 //= require_tree .
@@ -24,5 +26,8 @@ var App = {};
 
 $(function () {
   var router = new App.Router();
+  App.subscribe('modal-hide', function () {
+    router.navigate('archive', {trigger: true});
+  });
   Backbone.history.start();
 });
