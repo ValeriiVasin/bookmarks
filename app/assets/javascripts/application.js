@@ -16,7 +16,7 @@
 //= require lib/underscore-1.3.3.min
 //= require lib/backbone-0.9.2.min
 //= require_self
-//= require template_engine
+//= require_directory ./modules
 //= require_directory ./routers
 //= require_tree .
 
