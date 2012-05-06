@@ -37,7 +37,7 @@ var App = {
     this.modules[name] = {
       create: creator,
       instance: null
-    }
+    };
   },
   start: function (name) {
     var instance,

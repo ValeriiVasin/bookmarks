@@ -1,6 +1,6 @@
 App.views.bookmarks_collection = Backbone.View.extend({
   el: '#links',
-  collection: new App.collections.bookmarks,
+  collection: new App.collections.bookmarks(),
   initialize: function () {
     this.$el.empty();
     _.bindAll(this, 'addOne', 'addAll');

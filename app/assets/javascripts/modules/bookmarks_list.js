@@ -4,5 +4,5 @@ App.createModule('boorkmarks-list', function () {
       new App.views.bookmarks_collection();
     },
     destroy: function () {}
-  }
+  };
 });

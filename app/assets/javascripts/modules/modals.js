@@ -5,7 +5,7 @@ App.createModule('modals', function () {
       modalData;
 
   createModal = function () {
-    modal = $('<div />', {class: 'modal'});
+    modal = $('<div />', { 'class': 'modal' });
     modal.on('hide', function () {
       App.publish('modal-hide');
     });
@@ -36,7 +36,7 @@ App.createModule('modals', function () {
       url: modal.find('#url').val(),
       title: modal.find('#title').val(),
       description: modal.find('#description').val()
-    }
+    };
   };
 
   showModal = function (options) {
