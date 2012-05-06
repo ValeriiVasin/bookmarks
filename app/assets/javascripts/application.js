@@ -22,7 +22,59 @@
 //= require_directory ./routers
 //= require_tree .
 
-var App = {};
+var App = {
+  modules: {},
+  createModule: function (name, creator) {
+    if (typeof creator !== 'function') {
+      throw new Error("Can't create module "+ name +". Second parameter should be a function.");
+    }
+    this.modules[name] = {
+      create: creator,
+      instance: null
+    }
+  },
+  start: function (name) {
+    var instance,
+        mod = this.modules[name];
+    if (!mod) {
+      throw new Error("Module "+ name +" failed to start. It hasn't been registered yet.");
+    } else {
+      instance = mod.create.call(this);
+      if (instance && instance.init && instance.destroy) {
+        mod.instance = instance;
+        mod.instance.init();
+      } else {
+        throw new Error("Module "+ name +" should return object that contains functions 'init' and 'destroy'");
+      }
+    }
+  },
+  startAll: function () {
+    var moduleName;
+    for (moduleName in this.modules) {
+      if (this.modules.hasOwnProperty(moduleName)) {
+        this.start(moduleName);
+      }
+    }
+  },
+  stop: function(name) {
+    var instance,
+        mod = this.modules[name];
+    if (mod && mod.instance) {
+      mod.instance.destroy();
+      mod.instance = null;
+    } else {
+      throw new Error("Module "+ name +" failed to stop. It hasn't been registered or started yet.");
+    }
+  },
+  stopAll: function() {
+    var moduleName;
+    for (moduleName in this.modules) {
+      if (this.modules.hasOwnProperty(moduleName)) {
+        this.stop(moduleName);
+      }
+    }
+  }
+};
 
 $(function () {
   var router = new App.Router();
