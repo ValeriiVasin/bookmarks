@@ -1,8 +1,13 @@
 App.createModule('modals', function () {
   var modal,
       createModal,
-      showModal,
+      showModalForm,
+      newForm,
+      editForm,
+      defaultFields,
       modalData;
+
+  defaultFields = { url: '', title: '', description: '' };
 
   createModal = function () {
     modal = $('<div />', { 'class': 'modal' });
@@ -13,13 +18,12 @@ App.createModule('modals', function () {
       var type = $(this).data('type');
       switch (type) {
         case 'create':
-          console.log('create', modalData());
-          App.publish('create-bookmark', modalData());
+          App.publish('bookmark:create', modalData());
           break;
         // TODO: implement update - id of model is needed
         case 'update':
-          console.log('create', modalData());
-          App.publish('update-bookmark', modalData());
+          console.log('--- update');
+          App.publish('bookmark:update', modalData());
           break;
         // TODO: implement destroy
         case 'destroy':
@@ -39,30 +43,37 @@ App.createModule('modals', function () {
     };
   };
 
-  showModal = function (options) {
+  showModalForm = function (type, fields) {
     var tmpl, defaults;
-    if (!options.type) {
-      throw new Error("Type of modal action (new or edit) should be specified.");
+    if (arguments.length !== 2) {
+      throw new Error("Type and fields should be specified");
     }
     if (!App.templates) {
       throw new Error("Templates engine should be loaded before continue.");
     }
     tmpl = App.templates.get('edit-template');
-    options = $.extend({
-      url: '',
-      title: '',
-      description: ''
-    }, options || {});
-    modal.empty().append(tmpl(options)).modal('show');
+    fields = $.extend({type: type}, defaultFields, fields || {});
+    modal.empty().append(tmpl(fields)).modal('show');
+  };
+
+  newForm = function (data) {
+    showModalForm('new', data);
+  };
+
+  editForm = function (data) {
+    showModalForm('edit', data);
   };
 
   return {
     init: function () {
       createModal();
-      App.subscribe('modal-show', showModal);
+      App.subscribe('modal:new', newForm);
+      App.subscribe('modal:edit', editForm);
     },
     destroy: function () {
       modal.remove();
+      App.unsubscribe('modal:new', show);
+      App.unsubscribe('modal:edit', edit);
     }
   };
 });
