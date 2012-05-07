@@ -4,10 +4,19 @@
     .title {
       font-size: 16px;
     }
-    .url {
+    .title {
       display: inline-block;
-      margin-left: 25px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 675px;
+    }
+    .url {
       font-style: italic;
+      padding-left: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     blockquote {
       width: 400px;
