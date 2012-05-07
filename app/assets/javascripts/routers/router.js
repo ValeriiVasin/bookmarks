@@ -3,11 +3,11 @@
 
   menu = function (name) {
     $('.content').hide();
-    $('#'+name).show();
+    $(document.getElementById(name)).show();
   };
 
   activateMenuItem = function (position) {
-    $('#menu').children().removeClass('active').eq(position).addClass('active');
+    $(document.getElementById('menu')).children().removeClass('active').eq(position).addClass('active');
   };
 
   App.Router = Backbone.Router.extend({
