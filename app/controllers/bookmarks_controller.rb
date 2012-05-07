@@ -4,4 +4,10 @@ class BookmarksController < ApplicationController
   def index
     render :json => current_user.bookmarks
   end
+
+  def create
+    bookmark = current_user.bookmarks.create params[:bookmark]
+    render :json => bookmark
+  end
+
 end

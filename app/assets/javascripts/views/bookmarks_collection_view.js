@@ -5,11 +5,13 @@ App.views.bookmarks_collection = Backbone.View.extend({
     this.$el.empty();
     _.bindAll(this, 'addOne', 'addAll');
     this.collection.on('reset', this.addAll);
+    this.collection.on('add',   this.addOne);
+    App.subscribe('bookmark:create', $.proxy(this.collection.create, this.collection));
     this.collection.fetch();
   },
   addOne: function (model) {
     view = new App.views.bookmark({model: model});
-    this.$el.append(view.render().el);
+    this.$el.prepend(view.render().el);
   },
   addAll: function () {
     this.collection.each(this.addOne);
