@@ -3,9 +3,6 @@ App.collections.bookmarks = Backbone.Collection.extend({
   model: App.models.bookmark,
   initialize: function () {
     _.bindAll(this, 'setEditableModelId', 'saveEditableModel', 'getEditableModel', 'destroyEditableModel');
-    App.subscribe('modal:edit', this.setEditableModelId);
-    App.subscribe('bookmark:update', this.saveEditableModel);
-    App.subscribe('bookmark:destroy', this.destroyEditableModel);
   },
   setEditableModelId: function (modelJSON) {
     this.editableModelId = modelJSON.id;
@@ -18,7 +15,6 @@ App.collections.bookmarks = Backbone.Collection.extend({
   },
   saveEditableModel: function (fields) {
     var model = this.getEditableModel();
-    console.log(model, fields);
     if (model) {
       model.save(fields);
     }
