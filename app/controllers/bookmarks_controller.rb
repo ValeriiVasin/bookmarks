@@ -10,4 +10,12 @@ class BookmarksController < ApplicationController
     render :json => bookmark
   end
 
+  def update
+    if bookmark = current_user.bookmarks.find(params[:id])
+      bookmark.update_attributes! params[:bookmark]
+      render :json => bookmark
+    else
+      render :nothing => true
+    end
+  end
 end

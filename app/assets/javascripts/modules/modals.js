@@ -20,9 +20,7 @@ App.createModule('modals', function () {
         case 'create':
           App.publish('bookmark:create', modalData());
           break;
-        // TODO: implement update - id of model is needed
         case 'update':
-          console.log('--- update');
           App.publish('bookmark:update', modalData());
           break;
         // TODO: implement destroy
