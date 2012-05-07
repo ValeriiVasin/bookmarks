@@ -7,8 +7,7 @@
   };
 
   activateMenuItem = function (position) {
-    this.menu = this.menu || $('#menu');
-    this.menu.children().removeClass('active').eq(position).addClass('active');
+    $('#menu').children().removeClass('active').eq(position).addClass('active');
   };
 
   App.Router = Backbone.Router.extend({
