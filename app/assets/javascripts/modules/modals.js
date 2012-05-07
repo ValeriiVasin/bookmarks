@@ -23,8 +23,8 @@ App.createModule('modals', function () {
         case 'update':
           App.publish('bookmark:update', modalData());
           break;
-        // TODO: implement destroy
         case 'destroy':
+          App.publish('bookmark:destroy');
           break;
       }
       modal.modal('hide');

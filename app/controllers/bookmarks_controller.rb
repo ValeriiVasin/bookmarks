@@ -18,4 +18,11 @@ class BookmarksController < ApplicationController
       render :nothing => true
     end
   end
+
+  def destroy
+    if bookmark = current_user.bookmarks.find(params[:id])
+      bookmark.destroy
+    end
+    render :nothing => true
+  end
 end
