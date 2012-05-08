@@ -1,3 +1,7 @@
+#contacts, #about, #archive, .modal {
+  display: none;
+}
+
 #links {
   >li {
     padding: 10px 0;
@@ -44,8 +48,4 @@
       width: 35px;
     }
   }
-}
-
-.modal {
-  display: none;
 }
