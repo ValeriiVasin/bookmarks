@@ -49,3 +49,12 @@
     }
   }
 }
+
+.modal .control-group {
+  .help-block {
+    display: none;
+  }
+  &.error .help-block {
+    display: block;
+  }
+}
