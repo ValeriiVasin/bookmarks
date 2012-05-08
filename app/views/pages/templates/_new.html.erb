@@ -4,7 +4,7 @@
     <h3><%% if (type === 'new') { %>Save<%% } else { %>Edit<%% } %> a link</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal" action=''>
 
       <div class="control-group">
         <label class="control-label" for="url">URL</label>
@@ -28,7 +28,7 @@
           <textarea class="input-xlarge" id="description" name='description' cols='20' rows='5' placeholder='Provide a description'><%%= description %></textarea>
         </div>
       </div>
-
+      <input type="submit" value="submit" />
     </form>
   </div>
   <div class="modal-footer">

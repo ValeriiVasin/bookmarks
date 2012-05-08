@@ -12,20 +12,22 @@ App.createModule('modals', function () {
 
   validate = function (data) {
     var result = true,
-        urlRegExp = /^(?:https?:\/\/)?.+?\.[\w]{2,4}/,
-        generateError;
-    $.each(data, function (key, value) {
-      data[key] = $.trim(value);
-    });
-    generateError = function (field, message) {
+        urlRegExp = /^(?:https?:\/\/)?.+?\.[\w]{2,4}/;
+
+    function generateError(field, message) {
       var el = modal.find(field),
           controlGroup = el.closest('.control-group');
       controlGroup.addClass('error').find('.help-block').text(message);
-      el.one('keyup', function () {
+      el.one('keydown', function (e) {
         controlGroup.removeClass('error');
       });
       result = false;
-    };
+    }
+
+    $.each(data, function (key, value) {
+      data[key] = $.trim(value);
+    });
+
     if (!data.title) {
       generateError('#title', "Title can't be blank.");
     }
@@ -41,6 +43,10 @@ App.createModule('modals', function () {
     modal = $('<div />', { 'class': 'modal' });
     modal.on('hide', function () {
       App.publish('modal-hide');
+    });
+    modal.on('submit', 'form', function () {
+      modal.find('a.btn-primary').trigger('click');
+      return false;
     });
     modal.on('click', 'a', function () {
       var type = $(this).data('type'),

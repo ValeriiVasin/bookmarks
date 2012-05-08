@@ -50,11 +50,16 @@
   }
 }
 
-.modal .control-group {
-  .help-block {
+.modal {
+  input[type='submit'] {
     display: none;
   }
-  &.error .help-block {
-    display: block;
+  .control-group {
+    .help-block {
+      display: none;
+    }
+    &.error .help-block {
+      display: block;
+    }
   }
 }
