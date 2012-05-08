@@ -39,6 +39,10 @@
 #filters {
   .filter {
     margin: 5px 0 20px;
+    span.domain {
+      display: inline-block;
+      width: 35px;
+    }
   }
 }
 
