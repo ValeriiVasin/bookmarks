@@ -2,7 +2,7 @@ App.collections.bookmarks = Backbone.Collection.extend({
   url: '/bookmarks',
   model: App.models.bookmark,
   initialize: function () {
-    _.bindAll(this, 'setEditableModelId', 'saveEditableModel', 'getEditableModel', 'destroyEditableModel');
+    _.bindAll(this, 'setEditableModelId', 'saveEditableModel', 'getEditableModel', 'destroyEditableModel', 'domainsStat');
   },
   setEditableModelId: function (modelJSON) {
     this.editableModelId = modelJSON.id;
@@ -24,5 +24,19 @@ App.collections.bookmarks = Backbone.Collection.extend({
     if (model) {
       model.destroy();
     }
+  },
+  domainsStat: function () {
+    var stat = {},
+        domain;
+    this.each(function (model) {
+      if (domain = model.getDomain()) {
+        if (stat[domain]) {
+          stat[domain] += 1;
+        } else {
+          stat[domain] = 1;
+        }
+      }
+    });
+    return stat;
   }
 });

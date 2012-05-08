@@ -5,8 +5,8 @@ App.createModule('filters-bar', function () {
 
   resetFilter = function (data) {
     var tmpl = App.templates.get('filter');
-    if (!$.isArray(data)) {
-      throw new Error("Filter data should be an array");
+    if (!_.isObject(data)) {
+      throw new Error("Filter data should be an object");
     }
     container.empty().html(tmpl({ domains: data }));
   };

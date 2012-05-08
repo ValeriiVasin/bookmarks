@@ -3,9 +3,10 @@ App.views.bookmarks_collection = Backbone.View.extend({
   collection: new App.collections.bookmarks(),
   initialize: function () {
     this.$el.empty();
-    _.bindAll(this, 'addOne', 'addAll');
+    _.bindAll(this, 'addOne', 'addAll', 'updateFilters');
     this.collection.on('reset', this.addAll);
     this.collection.on('add',   this.addOne);
+    this.collection.on('all', this.updateFilters);
     App.subscribe('bookmark:create', $.proxy(this.collection.create, this.collection));
     App.subscribe('modal:edit', this.collection.setEditableModelId);
     App.subscribe('bookmark:update', this.collection.saveEditableModel);
@@ -18,5 +19,8 @@ App.views.bookmarks_collection = Backbone.View.extend({
   },
   addAll: function () {
     this.collection.each(this.addOne);
+  },
+  updateFilters: function () {
+    App.publish('filter:reset', this.collection.domainsStat());
   }
 });
