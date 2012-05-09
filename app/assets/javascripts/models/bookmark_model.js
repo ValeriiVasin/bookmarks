@@ -1,4 +1,13 @@
 App.models.bookmark = Backbone.Model.extend({
+  initialize: function () {
+    _.bindAll(this, 'onChange');
+    this.on('change', this.onChange);
+  },
+  onChange: function () {
+    if (this.hasChanged("title") || this.hasChanged("url") || this.hasChanged("description")) {
+      this.save();
+    }
+  },
   getDomain: function () {
     var url = this.get('url'),
         matches,

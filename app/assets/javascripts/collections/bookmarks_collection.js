@@ -16,7 +16,7 @@ App.collections.bookmarks = Backbone.Collection.extend({
   saveEditableModel: function (fields) {
     var model = this.getEditableModel();
     if (model) {
-      model.save(fields);
+      model.set(fields);
     }
   },
   destroyEditableModel: function () {
