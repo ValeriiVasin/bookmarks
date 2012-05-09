@@ -17,6 +17,7 @@ App.createModule('boorkmarks-list', function () {
       fields.url = "http://" + fields.url;
     }
     collection.create(fields);
+    App.router.navigate('archive', {trigger: true});
   };
 
   update = function (fields) {

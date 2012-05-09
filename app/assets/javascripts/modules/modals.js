@@ -51,10 +51,6 @@ App.createModule('modals', function () {
 
   createModal = function () {
     modal = $('<div />', { 'class': 'modal' });
-    // FIXME: navigation to archive is incorrect. Should implement other way
-    modal.on('hide', function () {
-      App.publish('modal-hide');
-    });
     modal.on('submit', 'form', function () {
       modal.find('a.btn-primary').trigger('click');
       return false;

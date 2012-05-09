@@ -83,10 +83,7 @@ var App = {
 };
 
 $(function () {
-  var router = new App.Router();
-  App.subscribe('modal-hide', function () {
-    router.navigate('archive', {trigger: true});
-  });
+  App.router = new App.Router();
   App.startAll();
   Backbone.history.start();
 });
