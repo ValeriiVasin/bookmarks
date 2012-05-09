@@ -1,6 +1,7 @@
 App.createModule('filters-bar', function () {
   var container,
       resetFilter,
+      convertToArray,
       updateFilterState;
 
   resetFilter = function (data) {
@@ -8,7 +9,18 @@ App.createModule('filters-bar', function () {
     if (!_.isObject(data)) {
       throw new Error("Filter data should be an object");
     }
-    container.empty().html(tmpl({ domains: data }));
+    container.empty().html(tmpl({ domains: convertToArray(data) }));
+  };
+
+  convertToArray = function (data) {
+    return _.chain(data)
+            .map(function (value, key) {
+              return { domain: key, count: value };
+            })
+            .sortBy(function (obj) {
+              return -obj.count;
+            })
+            .value();
   };
 
   updateFilterState = function () {

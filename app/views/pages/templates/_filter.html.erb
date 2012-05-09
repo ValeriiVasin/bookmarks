@@ -1,7 +1,7 @@
 <script type="text/template" data-name='filter'>
-  <%% _(domains).each(function (count, domain) { %>
+  <%% _(domains).each(function (obj) { %>
     <label class="checkbox">
-      <input type="checkbox" value='<%%= domain %>' /><span class="domain">.<%%= domain %></span><span class="badge badge-info"><%%= count %></span>
+      <input type="checkbox" value='<%%= obj.domain %>' /><span class="domain">.<%%= obj.domain %></span><span class="badge badge-info"><%%= obj.count %></span>
     </label>
   <%% }); %>
 </script>
