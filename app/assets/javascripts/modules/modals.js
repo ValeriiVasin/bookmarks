@@ -87,7 +87,7 @@ App.createModule('modals', function () {
             shareUrl = modal.find('form').attr('action');
             App.publish('bookmark:share', {email: shareEmail, url: shareUrl});
           }
-          break
+          break;
       }
       if (valid) {
         modal.modal('hide');

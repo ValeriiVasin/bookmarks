@@ -8,7 +8,11 @@ App.views.bookmarks_collection = Backbone.View.extend({
     this.collection.fetch();
   },
   add: function (model) {
-    this.appliedFilter.length > 0 ? this.resetFilter() : this.addOne(model);
+    if (this.appliedFilter.length > 0) {
+      this.resetFilter();
+    } else {
+      this.addOne(model);
+    }
   },
   addOne: function (model) {
     view = new App.views.bookmark({model: model});
