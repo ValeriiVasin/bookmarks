@@ -14,6 +14,9 @@ App.collections.bookmarks = Backbone.Collection.extend({
     });
   },
   saveEditableModel: function (fields) {
+    if (!fields.url.match(/^https?:\/\//)) {
+      fields.url = "http://" + fields.url;
+    }
     var model = this.getEditableModel();
     if (model) {
       model.set(fields);
