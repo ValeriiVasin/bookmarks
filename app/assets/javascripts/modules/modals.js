@@ -4,15 +4,17 @@ App.createModule('modals', function () {
       showModalForm,
       newForm,
       editForm,
+      share,
       defaultFields,
       modalData,
       validate;
 
   defaultFields = { url: '', title: '', description: '' };
 
-  validate = function (data) {
+  validate = function (data, type) {
     var result = true,
-        urlRegExp = /^(?:https?:\/\/)?.+?\.[\w]{2,4}/;
+        urlRegExp = /^(?:https?:\/\/)?.+?\.[\w]{2,4}/,
+        emailRegExp = /^[\w\d]*@.+\.\w{2,4}/;
 
     function generateError(field, message) {
       var el = modal.find(field),
@@ -28,19 +30,28 @@ App.createModule('modals', function () {
       data[key] = $.trim(value);
     });
 
-    if (!data.title) {
-      generateError('#title', "Title can't be blank.");
-    }
-    if (!data.url) {
-      generateError('#url', "URL can't be blank.");
-    } else if (!urlRegExp.test(data.url)) {
-      generateError('#url', "URL is not valid.");
+    if (type === 'share') {
+      if (!data.email) {
+        generateError('#email', "Email can't be blank");
+      } else if (!emailRegExp.test(data.email)) {
+        generateError('#email', "Email address is not valid");
+      }
+    } else {
+      if (!data.title) {
+        generateError('#title', "Title can't be blank.");
+      }
+      if (!data.url) {
+        generateError('#url', "URL can't be blank.");
+      } else if (!urlRegExp.test(data.url)) {
+        generateError('#url', "URL is not valid.");
+      }
     }
     return result;
   };
 
   createModal = function () {
     modal = $('<div />', { 'class': 'modal' });
+    // FIXME: navigation to archive is incorrect. Should implement other way
     modal.on('hide', function () {
       App.publish('modal-hide');
     });
@@ -51,23 +62,32 @@ App.createModule('modals', function () {
     modal.on('click', 'a', function () {
       var type = $(this).data('type'),
           valid = true,
+          shareEmail,
+          shareUrl,
           data;
       switch (type) {
         case 'create':
           data = modalData();
-          if (valid = validate(data)) {
+          if (valid = validate(data, 'create')) {
             App.publish('bookmark:create', data);
           }
           break;
         case 'update':
           data = modalData();
-          if (valid = validate(data)) {
+          if (valid = validate(data, 'update')) {
             App.publish('bookmark:update', data);
           }
           break;
         case 'destroy':
           App.publish('bookmark:destroy');
           break;
+        case 'share':
+          shareEmail = modal.find('#email').val();
+          if (valid = validate({email: shareEmail}, 'share')) {
+            shareUrl = modal.find('form').attr('action');
+            App.publish('bookmark:share', {email: shareEmail, url: shareUrl});
+          }
+          break
       }
       if (valid) {
         modal.modal('hide');
@@ -106,16 +126,28 @@ App.createModule('modals', function () {
     showModalForm('edit', data);
   };
 
+  share = function (bookmarkId) {
+    var tmpl, id;
+    if (_.isNumber(bookmarkId)) {
+      tmpl = App.templates.get('share');
+      modal.empty().append( tmpl({id: bookmarkId}) ).modal('show');
+    } else {
+      throw new Error("Bookmark ID should be a number");
+    }
+  };
+
   return {
     init: function () {
       createModal();
       App.subscribe('modal:new', newForm);
       App.subscribe('modal:edit', editForm);
+      App.subscribe('modal:share', share);
     },
     destroy: function () {
       modal.remove();
       App.unsubscribe('modal:new', show);
       App.unsubscribe('modal:edit', edit);
+      App.unsubscribe('modal:share', share);
     }
   };
 });

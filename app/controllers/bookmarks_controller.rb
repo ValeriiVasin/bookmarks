@@ -25,4 +25,9 @@ class BookmarksController < ApplicationController
     end
     render :nothing => true
   end
+
+  def share
+    Notifier.share(params[:email], current_user.bookmarks.find(params[:id])).deliver
+    render :nothing => true
+  end
 end
