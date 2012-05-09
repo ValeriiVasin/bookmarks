@@ -106,16 +106,28 @@ App.createModule('modals', function () {
     showModalForm('edit', data);
   };
 
+  share = function (bookmarkId) {
+    var tmpl, id;
+    if (_.isNumber(bookmarkId)) {
+      tmpl = App.templates.get('share');
+      modal.empty().append( tmpl({id: bookmarkId}) ).modal('show');
+    } else {
+      throw new Error("Bookmark ID should be a number");
+    }
+  };
+
   return {
     init: function () {
       createModal();
       App.subscribe('modal:new', newForm);
       App.subscribe('modal:edit', editForm);
+      App.subscribe('modal:share', share);
     },
     destroy: function () {
       modal.remove();
       App.unsubscribe('modal:new', show);
       App.unsubscribe('modal:edit', edit);
+      App.unsubscribe('modal:share', share);
     }
   };
 });
