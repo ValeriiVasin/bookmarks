@@ -2,33 +2,12 @@ App.collections.bookmarks = Backbone.Collection.extend({
   url: '/bookmarks',
   model: App.models.bookmark,
   initialize: function () {
-    _.bindAll(this, 'setEditableModelId', 'saveEditableModel', 'getEditableModel', 'destroyEditableModel', 'domainsStat', 'getFilteredModels');
+    _.bindAll(this, 'domainStats', 'getFilteredModels');
   },
-  setEditableModelId: function (modelJSON) {
-    this.editableModelId = modelJSON.id;
+  comparator: function (model) {
+    return model.get('created_at');
   },
-  getEditableModel: function () {
-    var id = this.editableModelId;
-    return this.find(function (model) {
-      return model.get('id') === id;
-    });
-  },
-  saveEditableModel: function (fields) {
-    if (!fields.url.match(/^https?:\/\//)) {
-      fields.url = "http://" + fields.url;
-    }
-    var model = this.getEditableModel();
-    if (model) {
-      model.set(fields);
-    }
-  },
-  destroyEditableModel: function () {
-    var model = this.getEditableModel();
-    if (model) {
-      model.destroy();
-    }
-  },
-  domainsStat: function () {
+  domainStats: function () {
     var stat = {},
         domain;
     this.each(function (model) {

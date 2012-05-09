@@ -1,5 +1,41 @@
 App.createModule('boorkmarks-list', function () {
-  var share;
+  var collection,
+      view,
+      create,
+      bookmarkID,
+      saveBookmarkId,
+      update,
+      destroy,
+      share;
+
+  saveBookmarkId = function (modelJSON) {
+    bookmarkID = modelJSON.id;
+  };
+
+  create = function (fields) {
+    if (!fields.url.match(/^https?:\/\//)) {
+      fields.url = "http://" + fields.url;
+    }
+    collection.create(fields);
+  };
+
+  update = function (fields) {
+    var model;
+    if (!fields.url.match(/^https?:\/\//)) {
+      fields.url = "http://" + fields.url;
+    }
+    model = collection.get(bookmarkID);
+    if (model) {
+      model.set(fields);
+    }
+  };
+
+  destroy = function () {
+    var model = collection.get(bookmarkID);
+    if (model) {
+      model.destroy();
+    }
+  };
 
   share = function (data) {
     if (data && data.url && data.email) {
@@ -19,11 +55,25 @@ App.createModule('boorkmarks-list', function () {
 
   return {
     init: function () {
-      new App.views.bookmarks_collection();
+      collection = new App.collections.bookmarks();
+      view = new App.views.bookmarks_collection({
+        collection: collection,
+        el: document.getElementById('links')
+      });
+      App.subscribe('bookmark:create', create);
+      App.subscribe('modal:edit', saveBookmarkId);
+      App.subscribe('bookmark:update', update);
+      App.subscribe('bookmark:destroy', destroy);
+      App.subscribe('filter:update', view.applyFilter);
       App.subscribe('bookmark:share', share);
     },
     destroy: function () {
       App.unsubscribe('bookmark:share', share);
+      App.unsubscribe('bookmark:create', create);
+      App.unsubscribe('modal:edit', saveBookmarkId);
+      App.unsubscribe('bookmark:update', update);
+      App.unsubscribe('bookmark:destroy', destroy);
+      App.unsubscribe('filter:update', collection.applyFilter);
     }
   };
 });

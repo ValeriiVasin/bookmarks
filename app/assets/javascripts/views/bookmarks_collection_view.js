@@ -1,24 +1,11 @@
 App.views.bookmarks_collection = Backbone.View.extend({
-  el: '#links',
-  collection: new App.collections.bookmarks(),
   initialize: function () {
-    _.bindAll(this, 'addOne', 'addAll', 'updateFilters', 'applyFilter', 'add', 'createBookmark');
+    _.bindAll(this, 'addOne', 'addAll', 'updateFilters', 'applyFilter', 'add');
     this.appliedFilter = [];
     this.collection.on('reset', this.addAll);
     this.collection.on('add',   this.add);
     this.collection.on('all', this.updateFilters);
-    App.subscribe('bookmark:create', this.createBookmark);
-    App.subscribe('modal:edit', this.collection.setEditableModelId);
-    App.subscribe('bookmark:update', this.collection.saveEditableModel);
-    App.subscribe('bookmark:destroy', this.collection.destroyEditableModel);
-    App.subscribe('filter:update', this.applyFilter);
     this.collection.fetch();
-  },
-  createBookmark: function (fields) {
-    if (!fields.url.match(/^https?:\/\//)) {
-      fields.url = "http://" + fields.url;
-    }
-    this.collection.create(fields);
   },
   add: function (model) {
     this.appliedFilter.length > 0 ? this.resetFilter() : this.addOne(model);
@@ -32,7 +19,7 @@ App.views.bookmarks_collection = Backbone.View.extend({
     this.collection.each(this.addOne);
   },
   updateFilters: function () {
-    App.publish('filter:reset', this.collection.domainsStat());
+    App.publish('filter:reset', this.collection.domainStats());
   },
   applyFilter: function (filter) {
     this.appliedFilter = filter;
