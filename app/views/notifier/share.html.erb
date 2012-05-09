@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hello!</h1>
+    <p>Your friend wants to share a link with you.</p>
+    <br />
+    <b><%= link_to @bookmark.url, @bookmark.title %></b>
+    <% unless @bookmark.description.empty? %>
+      <blockquote><%= @bookmark.description %></blockquote>
+    <% end %>
+    <br />
+    <p>Thank you, <%= link_to "BookMarks team", "http://lingualeo.herokuapps.com" %>.</p>
+  </body>
+</html>
