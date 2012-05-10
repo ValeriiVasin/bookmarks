@@ -18,7 +18,6 @@ App.createModule('boorkmarks-list', function () {
       fields.url = "http://" + fields.url;
     }
     collection.create(fields);
-    App.router.navigate('archive', {trigger: true});
   };
 
   update = function (fields) {
@@ -36,7 +35,6 @@ App.createModule('boorkmarks-list', function () {
     var model = collection.get(bookmarkID);
     if (model) {
       model.destroy();
-      App.publish('bookmark:check-for-empty');
     }
   };
 
@@ -57,9 +55,7 @@ App.createModule('boorkmarks-list', function () {
   };
 
   checkEmpty = function (state) {
-    state = !!state;
-    console.log(state);
-    $('.row').find('.alert').toggle(!state).siblings().toggle(state);
+    $('.row').find('.alert').toggle(state).siblings().toggle(!state);
   };
 
   return {
