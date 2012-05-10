@@ -1,10 +1,11 @@
 App.views.bookmarks_collection = Backbone.View.extend({
   initialize: function () {
-    _.bindAll(this, 'addOne', 'addAll', 'updateFilters', 'applyFilter', 'add');
+    _.bindAll(this, 'addOne', 'addAll', 'updateFilters', 'applyFilter', 'add', 'checkForEmpty');
     this.appliedFilter = [];
     this.collection.on('reset', this.addAll);
     this.collection.on('add',   this.add);
     this.collection.on('all', this.updateFilters);
+    this.collection.on('reset', this.checkForEmpty);
     this.collection.fetch();
   },
   add: function (model) {
@@ -33,5 +34,8 @@ App.views.bookmarks_collection = Backbone.View.extend({
   resetFilter: function () {
     this.appliedFilter = [];
     this.addAll();
+  },
+  checkForEmpty: function () {
+    App.publish('bookmark:check-for-empty', this.collection.models.length);
   }
 });

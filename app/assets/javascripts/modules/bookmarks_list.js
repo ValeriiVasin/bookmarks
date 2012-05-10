@@ -6,7 +6,8 @@ App.createModule('boorkmarks-list', function () {
       saveBookmarkId,
       update,
       destroy,
-      share;
+      share,
+      checkEmpty;
 
   saveBookmarkId = function (modelJSON) {
     bookmarkID = modelJSON.id;
@@ -35,6 +36,7 @@ App.createModule('boorkmarks-list', function () {
     var model = collection.get(bookmarkID);
     if (model) {
       model.destroy();
+      App.publish('bookmark:check-for-empty');
     }
   };
 
@@ -54,6 +56,12 @@ App.createModule('boorkmarks-list', function () {
     }
   };
 
+  checkEmpty = function (state) {
+    state = !!state;
+    console.log(state);
+    $('.row').find('.alert').toggle(!state).siblings().toggle(state);
+  };
+
   return {
     init: function () {
       collection = new App.collections.bookmarks();
@@ -67,6 +75,7 @@ App.createModule('boorkmarks-list', function () {
       App.subscribe('bookmark:destroy', destroy);
       App.subscribe('filter:update', view.applyFilter);
       App.subscribe('bookmark:share', share);
+      App.subscribe('bookmark:check-for-empty', checkEmpty);
     },
     destroy: function () {
       App.unsubscribe('bookmark:share', share);

@@ -1,6 +1,10 @@
 #contacts, #about, #archive, .modal {
   display: none;
 }
+#archive .alert {
+  display: none;
+  margin-top: 20px;
+}
 .required { color: #ba4d4d; }
 
 #links {
