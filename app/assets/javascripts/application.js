@@ -16,8 +16,7 @@
 //= require lib/underscore-1.3.3.min
 //= require lib/backbone-0.9.2.min
 //= require_self
-//= require modules/template_engine
-//= require modules/pub_sub
+//= require_directory ./utils
 //= require_directory ./models
 //= require_directory ./collections
 //= require_directory ./views
