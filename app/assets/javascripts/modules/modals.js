@@ -55,6 +55,9 @@ App.createModule('modals', function () {
       modal.find('a.btn-primary').trigger('click');
       return false;
     });
+    modal.on('hide', function () {
+      App.router.navigate('archive', {trigger: true});
+    });
     modal.on('click', 'a', function () {
       var type = $(this).data('type'),
           valid = true,
